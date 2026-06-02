@@ -14,6 +14,7 @@ import {
     signupSchema,
     SignupFormData,
 } from "@/features/auth/validations/auth.schema";
+import { signIn } from "next-auth/react";
 
 export default function RegisterForm() {
     const router = useRouter();
@@ -70,8 +71,30 @@ export default function RegisterForm() {
                 return;
             }
 
-            // redirect to login page
-            router.push("/login");
+            // automatically sign in user
+            const loginResult = await signIn(
+                "credentials",
+                {
+                    email: data.email,
+                    password: data.password,
+
+                    redirect: false,
+                }
+            );
+
+            // login failed unexpectedly
+            if (loginResult?.error) {
+                setServerError(
+                    "Account created, but auto-login failed"
+                );
+
+                return;
+            }
+
+            // redirect authenticated user
+            router.push("/");
+
+            router.refresh();
         } catch (error) {
             console.error(
                 "Register error:",

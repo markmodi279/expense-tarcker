@@ -1,11 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
 import User from "@/features/auth/models/User.model";
 import { connectDB } from "@/lib/db";
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
     providers: [
         Credentials({
             name: "credentials",
@@ -58,6 +58,24 @@ export const authOptions = {
 
     pages: {
         signIn: "/login",
+    },
+
+    callbacks: {
+        async jwt({ token, user }) {
+            // On initial sign-in, the user object returned from authorize is available
+            if (user) {
+                token.id = user.id;
+            }
+            return token;
+        },
+
+        async session({ session, token }) {
+            // Attach the token.id to the session user object
+            if (session.user) {
+                session.user.id = token.id as string;
+            }
+            return session;
+        },
     },
 
     secret: process.env.AUTH_SECRET,

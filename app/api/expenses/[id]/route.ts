@@ -1,8 +1,15 @@
 import mongoose from "mongoose";
+
 import { NextResponse } from "next/server";
 
+import { getServerSession } from "next-auth";
+
 import Expense from "@/features/expenses/models/Expense.model";
+
 import { connectDB } from "@/lib/db";
+
+import { authOptions } from "@/auth";
+
 
 interface RouteContext {
     params: Promise<{
@@ -10,40 +17,68 @@ interface RouteContext {
     }>;
 }
 
+
 export async function DELETE(
     _request: Request,
     context: RouteContext
 ) {
     try {
-        // get expense id from dynamic route params
-        const { id } = await context.params;
+        // verify authenticated session
+        const session =
+            await getServerSession(authOptions);
 
-        // validate MongoDB ObjectId format
-        const isValidId = mongoose.Types.ObjectId.isValid(id);
+        // unauthorized
+        if (!session) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    message:
+                        "You must be logged in",
+                },
+                { status: 401 }
+            );
+        }
+
+        // get expense id
+        const { id } =
+            await context.params;
+
+        // validate ObjectId format
+        const isValidId =
+            mongoose.Types.ObjectId.isValid(
+                id
+            );
 
         if (!isValidId) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Invalid expense ID",
+                    message:
+                        "Invalid expense ID",
                 },
                 { status: 400 }
             );
         }
 
-        // connect database
+        // connect DB
         await connectDB();
 
-        // delete expense document
+        // delete ONLY if expense belongs to current user
         const deletedExpense =
-            await Expense.findByIdAndDelete(id);
+            await Expense.findOneAndDelete({
+                _id: id,
 
-        // expense not found
+                createdBy:
+                    session.user.id,
+            });
+
+        // expense missing OR not owned
         if (!deletedExpense) {
             return NextResponse.json(
                 {
                     success: false,
-                    message: "Expense not found",
+                    message:
+                        "Expense not found",
                 },
                 { status: 404 }
             );
@@ -53,17 +88,22 @@ export async function DELETE(
         return NextResponse.json(
             {
                 success: true,
-                message: "Expense deleted successfully",
+                message:
+                    "Expense deleted successfully",
             },
             { status: 200 }
         );
     } catch (error) {
-        console.error("Error deleting expense:", error);
+        console.error(
+            "Error deleting expense:",
+            error
+        );
 
         return NextResponse.json(
             {
                 success: false,
-                message: "Something went wrong while deleting expense",
+                message:
+                    "Something went wrong",
             },
             { status: 500 }
         );
