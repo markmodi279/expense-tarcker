@@ -1,14 +1,7 @@
-import { authOptions } from '@/auth';
-import DashboardSummary from '@/features/dashboard/components/DashboardSummary';
-import { RecentExpenses } from '@/features/dashboard/components/RecentExpenses';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
+import DashboardSummary from "@/features/dashboard/components/DashboardSummary";
+import RecentExpenses from "@/features/dashboard/components/RecentExpenses";
 
-const HomePage = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) {
-    redirect('/login');
-  }
+export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-gray-100 px-4 py-10">
       <div className="mx-auto max-w-6xl">
@@ -29,7 +22,5 @@ const HomePage = async () => {
         </div>
       </div>
     </main>
-  )
+  );
 }
-
-export default HomePage;

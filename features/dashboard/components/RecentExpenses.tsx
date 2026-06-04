@@ -2,7 +2,7 @@
 
 import { useExpenses } from "@/hooks/api/useExpenses";
 
-export function RecentExpenses() {
+export default function RecentExpenses() {
     const {
         isLoading,
         isError,

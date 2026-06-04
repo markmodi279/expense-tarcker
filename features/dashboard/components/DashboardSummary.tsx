@@ -48,7 +48,7 @@ export default function DashboardSummary() {
                 title="Top Spending Category"
                 value={
                     data.topSpendingCategory
-                        ? `${data.topSpendingCategory.category} (₹${data.topSpendingCategory.amount})`
+                        ? `${data.topSpendingCategory.category} ( ₹${data.topSpendingCategory.amount} )`
                         : "No Data"
                 }
             />
