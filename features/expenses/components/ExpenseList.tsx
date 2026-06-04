@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react"; // Added useState
 import { useExpenses } from "@/hooks/api/useExpenses";
 import { useDeleteExpense } from "@/hooks/api/useDeleteExpense";
 
@@ -13,12 +14,22 @@ export default function ExpenseList() {
 
     const { mutate, isPending } = useDeleteExpense();
 
+    // Track the specific expense ID currently being deleted
+    const [deletingId, setDeletingId] = useState<string | null>(null);
+
     // Helper function to handle confirmation and deletion
     const handleDelete = (id: string, title: string) => {
         const isConfirmed = window.confirm(`Are you sure you want to delete "${title}"?`);
 
         if (isConfirmed) {
-            mutate(id);
+            setDeletingId(id); // Mark this ID as deleting
+
+            mutate(id, {
+                // Reset the ID once the mutation finishes (success or error)
+                onSettled: () => {
+                    setDeletingId(null);
+                }
+            });
         }
     };
 
@@ -64,58 +75,73 @@ export default function ExpenseList() {
     // Success State
     return (
         <div className="max-w-2xl mx-auto space-y-4">
-            <h2 className="text-2xl font-bold text-gray-900">
-                Recent Expenses
-            </h2>
-
             <div className="space-y-3">
-                {expenses.map((expense) => (
-                    <div
-                        key={expense._id}
-                        className="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl shadow-sm"
-                    >
-                        {/* LEFT SIDE */}
-                        <div>
-                            {/* TITLE */}
-                            <h3 className="font-semibold text-gray-800">
-                                {expense.title}
-                            </h3>
+                {expenses.map((expense) => {
+                    // Check if THIS specific row is the one being deleted
+                    const isCurrentDeleting = isPending && deletingId === expense._id;
 
-                            {/* META */}
-                            <div className="flex items-center gap-2 mt-1 text-sm text-gray-500">
-                                <span className="px-2 py-0.5 bg-gray-100 rounded-full">
-                                    {expense.category}
-                                </span>
+                    return (
+                        <div
+                            key={expense._id}
+                            className="grid grid-cols-[1fr_auto_1fr] items-center p-4 bg-white border border-gray-100 rounded-xl shadow-sm gap-4"
+                        >
+                            {/* LEFT SIDE: Info */}
+                            <div className="min-w-0">
+                                {/* TITLE */}
+                                <h3 className="font-semibold text-gray-800 truncate">
+                                    {expense.title}
+                                </h3>
 
-                                <span>
-                                    {new Date(expense.date).toLocaleDateString()}
-                                </span>
+                                {/* META */}
+                                <div className="flex flex-wrap items-center gap-2 mt-1 text-sm text-gray-500">
+                                    <span className="px-2 py-0.5 bg-gray-100 rounded-full text-xs">
+                                        {expense.category}
+                                    </span>
+
+                                    <span>
+                                        {new Date(expense.date).toLocaleDateString()}
+                                    </span>
+                                </div>
+
+                                {/* NOTES */}
+                                {expense.notes && (
+                                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+                                        {expense.notes}
+                                    </p>
+                                )}
                             </div>
 
-                            {/* NOTES */}
-                            {expense.notes && (
-                                <p className="mt-2 text-sm text-gray-600">
-                                    {expense.notes}
-                                </p>
-                            )}
-                        </div>
-                        {/* MIDDLE: DELETE BUTTON */}
-                        <div className="mx-4">
-                            <button
-                                onClick={() => handleDelete(expense._id, expense.title)}
-                                disabled={isPending}
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-1.5 px-3 rounded-xl text-sm disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                            >
-                                {isPending ? "Deleting..." : "Delete"}
-                            </button>
-                        </div>
+                            {/* MIDDLE: FIXED CENTER DELETE ICON */}
+                            <div className="flex justify-center items-center">
+                                <button
+                                    onClick={() => handleDelete(expense._id, expense.title)}
+                                    // Disable button if ANY deletion is pending to prevent double-clicks
+                                    disabled={isPending}
+                                    title="Delete expense"
+                                    className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl disabled:text-gray-300 disabled:bg-transparent disabled:cursor-not-allowed transition-all"
+                                >
+                                    {isCurrentDeleting ? (
+                                        // Loading Spinner (Only shows on the row matching deletingId)
+                                        <svg className="animate-spin h-5 w-5 text-red-500" viewBox="0 0 24 24" fill="none">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                                        </svg>
+                                    ) : (
+                                        // Trash Icon
+                                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    )}
+                                </button>
+                            </div>
 
-                        {/* RIGHT SIDE */}
-                        <div className="text-lg font-bold text-gray-900">
-                            ${expense.amount.toFixed(2)}
+                            {/* RIGHT SIDE: Amount */}
+                            <div className="text-lg font-bold text-gray-900 text-right">
+                                ₹{expense.amount.toFixed(2)}
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );
