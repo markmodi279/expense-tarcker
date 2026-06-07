@@ -1,3 +1,4 @@
+import CategoryBreakdown from "@/features/dashboard/components/CategoryBreakdown";
 import DashboardSummary from "@/features/dashboard/components/DashboardSummary";
 import RecentExpenses from "@/features/dashboard/components/RecentExpenses";
 
@@ -16,6 +17,10 @@ export default function DashboardPage() {
         </div>
 
         <DashboardSummary />
+
+        <div className="mt-8">
+          <CategoryBreakdown />
+        </div>
 
         <div className="mt-8">
           <RecentExpenses />

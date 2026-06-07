@@ -15,6 +15,9 @@ export function useCreateExpense() {
             queryClient.invalidateQueries({
                 queryKey: ["dashboard"],
             });
+            queryClient.invalidateQueries({
+                queryKey: ["category-breakdown"],
+            });
         },
     });
 }

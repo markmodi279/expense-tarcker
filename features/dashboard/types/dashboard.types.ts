@@ -9,3 +9,9 @@ export interface DashboardAnalytics {
     currentMonthAmount: number;
     topSpendingCategory: TopSpendingCategory | null;
 }
+
+export interface CategoryBreakdown {
+    category: string;
+    amount: number;
+    percentage: number;
+}

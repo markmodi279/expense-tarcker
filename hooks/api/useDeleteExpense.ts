@@ -15,6 +15,9 @@ export function useDeleteExpense() {
             queryClient.invalidateQueries({
                 queryKey: ["dashboard"],
             });
+            queryClient.invalidateQueries({
+                queryKey: ["category-breakdown"],
+            });
         },
     });
 
