@@ -1,6 +1,31 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 import ExpenseForm from "@/features/expenses/components/ExpenseForm";
 
+import { ExpenseFormData } from "@/features/expenses/validations/expense.schema";
+
+import { useCreateExpense } from "@/hooks/api/useCreateExpense";
+
 export default function NewExpensePage() {
+    const router = useRouter();
+
+    const {
+        mutate,
+        isPending,
+    } = useCreateExpense();
+
+    const handleCreateExpense = (
+        data: ExpenseFormData
+    ) => {
+        mutate(data, {
+            onSuccess: () => {
+                router.push("/expenses");
+            },
+        });
+    };
+
     return (
         <main className="min-h-screen bg-gray-100 px-4 py-10">
             <div className="mx-auto max-w-2xl">
@@ -14,7 +39,13 @@ export default function NewExpensePage() {
                     </p>
                 </div>
 
-                <ExpenseForm />
+                <ExpenseForm
+                    onSubmit={
+                        handleCreateExpense
+                    }
+                    isPending={isPending}
+                    submitLabel="Add Expense"
+                />
             </div>
         </main>
     );

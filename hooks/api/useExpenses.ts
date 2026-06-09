@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getExpenses } from "@/services/expense.service";
-
 import { Expense } from "@/features/expenses/types/expense.types";
 
 export function useExpenses() {
@@ -12,6 +11,4 @@ export function useExpenses() {
         retry: 2,
         refetchOnWindowFocus: false,
     });
-
-
 }

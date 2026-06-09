@@ -3,38 +3,58 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ExpenseFormData, expenseSchema } from "@/features/expenses/validations/expense.schema";
-import { useCreateExpense } from "@/hooks/api/useCreateExpense";
+import {
+    ExpenseFormData,
+    expenseSchema,
+} from "@/features/expenses/validations/expense.schema";
 
-export default function ExpenseForm() {
+interface ExpenseFormProps {
+    initialData?: {
+        title?: string;
+        amount?: number;
+        category?: string;
+        date?: string;
+        notes?: string;
+    };
+    onSubmit: (
+        data: ExpenseFormData
+    ) => void;
 
-    const { mutate, isPending } = useCreateExpense();
+    isPending?: boolean;
 
+    submitLabel?: string;
+}
+
+export default function ExpenseForm({
+    initialData,
+    onSubmit,
+    isPending = false,
+    submitLabel = "Submit",
+}: ExpenseFormProps) {
     const {
         register,
-        reset,
         handleSubmit,
         formState: { errors },
     } = useForm({
         resolver: zodResolver(expenseSchema),
 
         defaultValues: {
-            title: "",
-            amount: 0,
-            category: "",
-            date: "",
-            notes: "",
+            title:
+                initialData?.title ?? "",
+
+            amount:
+                initialData?.amount ?? 0,
+
+            category:
+                initialData?.category ?? "",
+
+            date:
+                initialData?.date ?? "",
+
+            notes:
+                initialData?.notes ?? "",
         },
     });
-
-    // submit handler
-    const onSubmit = (data: ExpenseFormData) => {
-        mutate(data, {
-            onSuccess: () => {
-                reset();
-            },
-        });
-    };
 
     return (
         <form
@@ -42,7 +62,7 @@ export default function ExpenseForm() {
             className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-sm border border-gray-100 space-y-5"
         >
             <h2 className="text-2xl font-bold text-gray-900">
-                Add Expense
+                {submitLabel}
             </h2>
 
             {/* TITLE */}
@@ -150,9 +170,11 @@ export default function ExpenseForm() {
             <button
                 type="submit"
                 disabled={isPending}
-                className="w-full rounded-xl bg-black text-white py-3 font-medium hover:opacity-90 transition"
+                className="w-full rounded-xl bg-black text-white py-3 font-medium hover:opacity-90 transition disabled:opacity-50"
             >
-                {isPending ? "Creating Expense..." : "Add Expense"}
+                {isPending
+                    ? "Saving..."
+                    : submitLabel}
             </button>
         </form>
     );

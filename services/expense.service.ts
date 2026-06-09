@@ -56,3 +56,37 @@ export async function deleteExpense(id: string) {
 
     return data.data;
 }
+
+export async function getExpenseById(id: string) {
+    const response = await fetch(`/api/expenses/${id}`);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message || "Failed to fetch expense by id"
+        );
+    }
+
+    return data.data;
+}
+
+export async function updateExpense(id: string, payload: CreateExpensePayload) {
+    const response = await fetch(`/api/expenses/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(
+            data.message || "Failed to update expense"
+        );
+    }
+
+    return data.data;
+}
