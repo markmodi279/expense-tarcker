@@ -17,10 +17,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
     >
-      <body className="min-h-screen flex flex-col">
+      <body className="min-h-screen flex flex-col bg-white text-black dark:bg-gray-950 dark:text-white">
         <AppProviders>
-          <Navbar/>
+          <Navbar />
           <main>{children}</main>
         </AppProviders>
       </body>

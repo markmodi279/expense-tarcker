@@ -78,46 +78,47 @@ export default function ExpenseList() {
         <div className="max-w-2xl mx-auto space-y-4">
             <div className="space-y-3">
                 {expenses.map((expense) => {
-                    // Check if THIS specific row is the one being deleted
-                    const isCurrentDeleting = isPending && deletingId === expense._id;
+                    const isCurrentDeleting =
+                        isPending && deletingId === expense._id;
 
                     return (
                         <div
                             key={expense._id}
-                            className="grid grid-cols-[1fr_auto_1fr] items-center p-4 bg-white border border-gray-100 rounded-xl shadow-sm gap-4"
+                            className="grid grid-cols-[1fr_auto_1fr] items-center p-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl shadow-sm"
                         >
                             {/* LEFT SIDE: Info */}
                             <div className="min-w-0">
                                 {/* TITLE */}
-                                <h3 className="font-semibold text-gray-800 truncate">
+                                <h3 className="font-semibold text-gray-800 dark:text-gray-200 truncate">
                                     {expense.title}
                                 </h3>
 
                                 {/* META */}
-                                <div className="flex flex-wrap items-center gap-2 mt-1 text-sm text-gray-500">
-                                    <span className="px-2 py-0.5 bg-gray-100 rounded-full text-xs">
+                                <div className="flex flex-wrap items-center gap-2 mt-1 text-sm text-gray-500 dark:text-gray-400">
+                                    <span className="px-2 py-0.5 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-xs">
                                         {expense.category}
                                     </span>
 
                                     <span>
-                                        {new Date(expense.date).toLocaleDateString()}
+                                        {new Date(
+                                            expense.date
+                                        ).toLocaleDateString()}
                                     </span>
                                 </div>
 
                                 {/* NOTES */}
                                 {expense.notes && (
-                                    <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+                                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
                                         {expense.notes}
                                     </p>
                                 )}
                             </div>
 
-                            {/* MIDDLE: FIXED CENTER DELETE ICON */}
-                            {/* MIDDLE: ACTIONS */}
+                            {/* ACTIONS */}
                             <div className="flex items-center gap-2">
                                 <Link
                                     href={`/expenses/${expense._id}/edit`}
-                                    className="px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-xl hover:bg-blue-100 transition"
+                                    className="px-3 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/40 rounded-xl hover:bg-blue-100 dark:hover:bg-blue-900/50 transition"
                                 >
                                     Edit
                                 </Link>
@@ -131,11 +132,11 @@ export default function ExpenseList() {
                                     }
                                     disabled={isPending}
                                     title="Delete expense"
-                                    className="p-2.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl disabled:text-gray-300 disabled:bg-transparent disabled:cursor-not-allowed transition-all"
+                                    className="p-2.5 text-gray-400 dark:text-gray-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-xl disabled:text-gray-300 dark:disabled:text-gray-700 disabled:bg-transparent disabled:cursor-not-allowed transition-all"
                                 >
                                     {isCurrentDeleting ? (
                                         <svg
-                                            className="animate-spin h-5 w-5 text-red-500"
+                                            className="animate-spin h-5 w-5 text-red-500 dark:text-red-400"
                                             viewBox="0 0 24 24"
                                             fill="none"
                                         >
@@ -172,7 +173,7 @@ export default function ExpenseList() {
                             </div>
 
                             {/* RIGHT SIDE: Amount */}
-                            <div className="text-lg font-bold text-gray-900 text-right">
+                            <div className="text-lg font-bold text-gray-900 dark:text-white text-right">
                                 ₹{expense.amount.toFixed(2)}
                             </div>
                         </div>

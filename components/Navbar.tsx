@@ -6,18 +6,19 @@ import {
     signOut,
     useSession,
 } from "next-auth/react";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
     const { data: session, status } =
         useSession();
 
     return (
-        <header className="border-b border-gray-200 bg-white">
+        <header className="border-b border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-800">
             <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
                 {/* LOGO */}
                 <Link
                     href="/"
-                    className="text-xl font-bold text-gray-900"
+                    className="text-xl font-bold text-gray-900 dark:text-white"
                 >
                     Expense Tracker
                 </Link>
@@ -37,14 +38,14 @@ export default function Navbar() {
                             <nav className="flex items-center gap-6">
                                 <Link
                                     href="/"
-                                    className="text-sm font-medium text-gray-700 hover:text-black"
+                                    className="text-sm font-medium text-gray-700 dark:text-white hover:text-black dark:hover:text-gray-200"
                                 >
                                     Dashboard
                                 </Link>
 
                                 <Link
                                     href="/expenses"
-                                    className="text-sm font-medium text-gray-700 hover:text-black"
+                                    className="text-sm font-medium text-gray-700 dark:text-white hover:text-black dark:hover:text-gray-200"
                                 >
                                     Expenses
                                 </Link>
@@ -59,9 +60,11 @@ export default function Navbar() {
 
                             {/* USER SECTION */}
                             <div className="flex items-center gap-4 border-l border-gray-200 pl-6">
-                                <span className="text-sm text-gray-700">
+                                <span className="text-sm text-gray-700 dark:text-white">
                                     {session.user.name}
                                 </span>
+
+                                <ThemeToggle />
 
                                 <button
                                     onClick={() =>
@@ -70,7 +73,7 @@ export default function Navbar() {
                                                 "/login",
                                         })
                                     }
-                                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                    className="rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
                                 >
                                     Logout
                                 </button>
@@ -84,7 +87,7 @@ export default function Navbar() {
                         <div className="flex items-center gap-3">
                             <Link
                                 href="/login"
-                                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                                className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800"
                             >
                                 Login
                             </Link>

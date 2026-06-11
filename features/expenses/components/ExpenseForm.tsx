@@ -59,15 +59,15 @@ export default function ExpenseForm({
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-sm border border-gray-100 space-y-5"
+            className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-5"
         >
-            <h2 className="text-2xl font-bold text-gray-900">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
                 {submitLabel}
             </h2>
 
             {/* TITLE */}
             <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Title
                 </label>
 
@@ -75,7 +75,7 @@ export default function ExpenseForm({
                     type="text"
                     placeholder="Groceries"
                     {...register("title")}
-                    className="w-full text-gray-500 rounded-xl border border-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
                 />
 
                 {errors.title && (
@@ -87,7 +87,7 @@ export default function ExpenseForm({
 
             {/* AMOUNT */}
             <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Amount (₹)
                 </label>
 
@@ -97,7 +97,7 @@ export default function ExpenseForm({
                     {...register("amount", {
                         valueAsNumber: true,
                     })}
-                    className="w-full text-gray-500 rounded-xl border border-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
                 />
 
                 {errors.amount && (
@@ -109,7 +109,7 @@ export default function ExpenseForm({
 
             {/* CATEGORY */}
             <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Category
                 </label>
 
@@ -117,7 +117,7 @@ export default function ExpenseForm({
                     type="text"
                     placeholder="Food"
                     {...register("category")}
-                    className="w-full text-gray-500 rounded-xl border border-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
                 />
 
                 {errors.category && (
@@ -129,14 +129,14 @@ export default function ExpenseForm({
 
             {/* DATE */}
             <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Date
                 </label>
 
                 <input
                     type="date"
                     {...register("date")}
-                    className="w-full text-gray-500 rounded-xl border border-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
                 />
 
                 {errors.date && (
@@ -148,7 +148,7 @@ export default function ExpenseForm({
 
             {/* NOTES */}
             <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Notes
                 </label>
 
@@ -156,7 +156,7 @@ export default function ExpenseForm({
                     rows={4}
                     placeholder="Optional notes..."
                     {...register("notes")}
-                    className="w-full text-gray-500 rounded-xl border border-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black"
+                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
                 />
 
                 {errors.notes && (
@@ -170,11 +170,9 @@ export default function ExpenseForm({
             <button
                 type="submit"
                 disabled={isPending}
-                className="w-full rounded-xl bg-black text-white py-3 font-medium hover:opacity-90 transition disabled:opacity-50"
+                className="w-full rounded-xl bg-black dark:bg-white text-white dark:text-gray-900 py-3 font-medium hover:opacity-90 transition disabled:opacity-50"
             >
-                {isPending
-                    ? "Saving..."
-                    : submitLabel}
+                {isPending ? "Saving..." : submitLabel}
             </button>
         </form>
     );

@@ -63,7 +63,7 @@ export default function EditExpensePage() {
     }
 
     return (
-        <main className="min-h-screen bg-gray-100 px-4 py-10">
+        <main className="min-h-screen bg-gray-100 dark:bg-gray-950 px-4 py-10">
             <div className="mx-auto max-w-2xl">
                 <div className="mb-8">
                     <h1 className="text-3xl font-bold text-gray-900">
