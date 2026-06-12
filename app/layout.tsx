@@ -22,7 +22,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-white text-black dark:bg-gray-950 dark:text-white">
         <AppProviders>
           <Navbar />
-          <main>{children}</main>
+          <main className="pb-16 md:pb-0">{children}</main>
         </AppProviders>
       </body>
     </html>
