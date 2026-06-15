@@ -8,6 +8,8 @@ import {
     expenseSchema,
 } from "@/features/expenses/validations/expense.schema";
 
+import { EXPENSE_CATEGORIES } from "@/features/expenses/constants/categories";
+
 interface ExpenseFormProps {
     initialData?: {
         title?: string;
@@ -90,7 +92,7 @@ export default function ExpenseForm({
 
                 <input
                     type="text"
-                    placeholder="Groceries"
+                    placeholder="Example (Groceries)"
                     {...register("title")}
                     className="
                         w-full
@@ -153,9 +155,7 @@ export default function ExpenseForm({
                     Category
                 </label>
 
-                <input
-                    type="text"
-                    placeholder="Food"
+                <select
                     {...register("category")}
                     className="
                         w-full
@@ -164,13 +164,27 @@ export default function ExpenseForm({
                         bg-white dark:bg-slate-800
                         px-4 py-3
                         text-slate-900 dark:text-slate-100
-                        placeholder:text-slate-400
                         outline-none
                         transition
                         focus:ring-2 focus:ring-slate-900
                         dark:focus:ring-slate-400
                     "
-                />
+                >
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    {EXPENSE_CATEGORIES.map(
+                        (category) => (
+                            <option
+                                key={category}
+                                value={category}
+                            >
+                                {category}
+                            </option>
+                        )
+                    )}
+                </select>
 
                 {errors.category && (
                     <p className="text-sm text-red-500">
