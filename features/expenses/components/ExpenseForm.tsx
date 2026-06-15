@@ -16,6 +16,7 @@ interface ExpenseFormProps {
         date?: string;
         notes?: string;
     };
+
     onSubmit: (
         data: ExpenseFormData
     ) => void;
@@ -59,15 +60,31 @@ export default function ExpenseForm({
     return (
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 space-y-5"
+            className="
+                mx-auto
+                max-w-2xl
+                rounded-2xl
+                border border-slate-200 dark:border-slate-800
+                bg-white dark:bg-slate-900
+                p-6
+                shadow-sm
+                space-y-6
+            "
         >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                {submitLabel}
-            </h2>
+            {/* HEADER */}
+            <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
+                    {submitLabel}
+                </h2>
+
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                    Fill in the details below.
+                </p>
+            </div>
 
             {/* TITLE */}
-            <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Title
                 </label>
 
@@ -75,7 +92,19 @@ export default function ExpenseForm({
                     type="text"
                     placeholder="Groceries"
                     {...register("title")}
-                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
+                    className="
+                        w-full
+                        rounded-xl
+                        border border-slate-200 dark:border-slate-700
+                        bg-white dark:bg-slate-800
+                        px-4 py-3
+                        text-slate-900 dark:text-slate-100
+                        placeholder:text-slate-400
+                        outline-none
+                        transition
+                        focus:ring-2 focus:ring-slate-900
+                        dark:focus:ring-slate-400
+                    "
                 />
 
                 {errors.title && (
@@ -86,8 +115,8 @@ export default function ExpenseForm({
             </div>
 
             {/* AMOUNT */}
-            <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Amount (₹)
                 </label>
 
@@ -97,7 +126,18 @@ export default function ExpenseForm({
                     {...register("amount", {
                         valueAsNumber: true,
                     })}
-                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
+                    className="
+                        w-full
+                        rounded-xl
+                        border border-slate-200 dark:border-slate-700
+                        bg-white dark:bg-slate-800
+                        px-4 py-3
+                        text-slate-900 dark:text-slate-100
+                        outline-none
+                        transition
+                        focus:ring-2 focus:ring-slate-900
+                        dark:focus:ring-slate-400
+                    "
                 />
 
                 {errors.amount && (
@@ -108,8 +148,8 @@ export default function ExpenseForm({
             </div>
 
             {/* CATEGORY */}
-            <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Category
                 </label>
 
@@ -117,7 +157,19 @@ export default function ExpenseForm({
                     type="text"
                     placeholder="Food"
                     {...register("category")}
-                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
+                    className="
+                        w-full
+                        rounded-xl
+                        border border-slate-200 dark:border-slate-700
+                        bg-white dark:bg-slate-800
+                        px-4 py-3
+                        text-slate-900 dark:text-slate-100
+                        placeholder:text-slate-400
+                        outline-none
+                        transition
+                        focus:ring-2 focus:ring-slate-900
+                        dark:focus:ring-slate-400
+                    "
                 />
 
                 {errors.category && (
@@ -128,15 +180,26 @@ export default function ExpenseForm({
             </div>
 
             {/* DATE */}
-            <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Date
                 </label>
 
                 <input
                     type="date"
                     {...register("date")}
-                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
+                    className="
+                        w-full
+                        rounded-xl
+                        border border-slate-200 dark:border-slate-700
+                        bg-white dark:bg-slate-800
+                        px-4 py-3
+                        text-slate-900 dark:text-slate-100
+                        outline-none
+                        transition
+                        focus:ring-2 focus:ring-slate-900
+                        dark:focus:ring-slate-400
+                    "
                 />
 
                 {errors.date && (
@@ -147,16 +210,28 @@ export default function ExpenseForm({
             </div>
 
             {/* NOTES */}
-            <div className="space-y-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Notes
                 </label>
 
                 <textarea
-                    rows={4}
+                    rows={5}
                     placeholder="Optional notes..."
                     {...register("notes")}
-                    className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 px-4 py-2 outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500"
+                    className="
+                        w-full
+                        rounded-xl
+                        border border-slate-200 dark:border-slate-700
+                        bg-white dark:bg-slate-800
+                        px-4 py-3
+                        text-slate-900 dark:text-slate-100
+                        placeholder:text-slate-400
+                        outline-none
+                        transition
+                        focus:ring-2 focus:ring-slate-900
+                        dark:focus:ring-slate-400
+                    "
                 />
 
                 {errors.notes && (
@@ -167,13 +242,30 @@ export default function ExpenseForm({
             </div>
 
             {/* SUBMIT BUTTON */}
-            <button
-                type="submit"
-                disabled={isPending}
-                className="w-full rounded-xl bg-black dark:bg-white text-white dark:text-gray-900 py-3 font-medium hover:opacity-90 transition disabled:opacity-50"
-            >
-                {isPending ? "Saving..." : submitLabel}
-            </button>
+            <div className="flex justify-end">
+                <button
+                    type="submit"
+                    disabled={isPending}
+                    className="
+                        min-w-[180px]
+                        rounded-xl
+                        bg-slate-900
+                        px-6 py-3
+                        font-medium
+                        text-white
+                        transition
+                        hover:scale-[1.02]
+                        hover:shadow-md
+                        disabled:opacity-50
+                        dark:bg-slate-100
+                        dark:text-slate-900
+                    "
+                >
+                    {isPending
+                        ? "Saving..."
+                        : submitLabel}
+                </button>
+            </div>
         </form>
     );
 }

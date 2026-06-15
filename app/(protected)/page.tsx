@@ -4,27 +4,29 @@ import RecentExpenses from "@/features/dashboard/components/RecentExpenses";
 
 export default function DashboardPage() {
   return (
-    <main className="min-h-screen bg-gray-100 dark:bg-gray-950 px-4 py-10">
-      <div className="mx-auto max-w-6xl">
+    <main className="min-h-screen bg-gray-100 dark:bg-gray-950 px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+      <div className="mx-auto max-w-7xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
             Dashboard
           </h1>
 
-          <p className="mt-2 text-gray-500 dark:text-gray-400">
+          <p className="mt-2 text-slate-500 dark:text-slate-400">
             Overview of your spending activity.
           </p>
         </div>
 
-        <DashboardSummary />
+        <section>
+          <DashboardSummary />
+        </section>
 
-        <div className="mt-8">
+        <section className="mt-8">
           <CategoryBreakdown />
-        </div>
+        </section>
 
-        <div className="mt-8">
+        <section className="mt-8">
           <RecentExpenses />
-        </div>
+        </section>
       </div>
     </main>
   );

@@ -28,28 +28,36 @@ export default function DashboardSummary() {
     }
 
     return (
-        <section className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-10">
+        <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 ">
             <DashboardCard
                 title="Total Expenses"
                 value={data.totalExpenses}
+                description="Tracked expenses"
             />
 
             <DashboardCard
-                title="Total Amount Spent"
+                title="Total Spent"
                 value={`₹${data.totalAmountSpent}`}
+                description="Across all expenses"
             />
 
             <DashboardCard
-                title="Current Month Spending"
+                title="This Month"
                 value={`₹${data.currentMonthAmount}`}
+                description="Current month spending"
             />
 
             <DashboardCard
-                title="Top Spending Category"
+                title="Top Category"
                 value={
                     data.topSpendingCategory
-                        ? `${data.topSpendingCategory.category} ( ₹${data.topSpendingCategory.amount} )`
+                        ? data.topSpendingCategory.category
                         : "No Data"
+                }
+                description={
+                    data.topSpendingCategory
+                        ? `₹${data.topSpendingCategory.amount} spent`
+                        : undefined
                 }
             />
         </section>
