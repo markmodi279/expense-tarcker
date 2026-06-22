@@ -1,3 +1,4 @@
+import AnalyticsSection from "@/features/dashboard/components/analytics/AnalyticsSection";
 import CategoryBreakdown from "@/features/dashboard/components/CategoryBreakdown";
 import DashboardSummary from "@/features/dashboard/components/DashboardSummary";
 import RecentExpenses from "@/features/dashboard/components/RecentExpenses";
@@ -21,7 +22,8 @@ export default function DashboardPage() {
         </section>
 
         <section className="mt-8">
-          <CategoryBreakdown />
+          {/* <CategoryBreakdown /> */}
+          <AnalyticsSection />
         </section>
 
         <section className="mt-8">
