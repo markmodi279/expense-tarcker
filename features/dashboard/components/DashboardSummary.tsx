@@ -28,7 +28,7 @@ export default function DashboardSummary() {
     }
 
     return (
-        <section className="grid gap-5 md:grid-cols-2 lg:grid-cols-4 ">
+        <section className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             <DashboardCard
                 title="Total Expenses"
                 value={data.totalExpenses}
@@ -44,7 +44,7 @@ export default function DashboardSummary() {
             <DashboardCard
                 title="This Month"
                 value={`₹${data.currentMonthAmount}`}
-                description="Current month spending"
+                description="Spendings"
             />
 
             <DashboardCard

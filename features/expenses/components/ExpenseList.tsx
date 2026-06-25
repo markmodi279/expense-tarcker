@@ -6,7 +6,16 @@ import Link from "next/link";
 import { useExpenses } from "@/hooks/api/useExpenses";
 import { useDeleteExpense } from "@/hooks/api/useDeleteExpense";
 
-export default function ExpenseList() {
+type ExpenseListProps = {
+    searchTerm: string;
+    selectedCategory: string;
+    sortBy: string;
+};
+export default function ExpenseList({
+    searchTerm,
+    selectedCategory,
+    sortBy,
+}: ExpenseListProps) {
     const {
         data: expenses,
         isLoading,
@@ -68,6 +77,78 @@ export default function ExpenseList() {
         );
     }
 
+    const filteredExpenses =
+        expenses?.filter(
+            (expense) => {
+                const search =
+                    searchTerm.toLowerCase();
+
+                const matchesSearch =
+                    expense.title
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    expense.category
+                        .toLowerCase()
+                        .includes(search) ||
+
+                    expense.notes
+                        ?.toLowerCase()
+                        .includes(search);
+
+                const matchesCategory =
+                    selectedCategory ===
+                    "all" ||
+                    expense.category ===
+                    selectedCategory;
+
+                return (
+                    matchesSearch &&
+                    matchesCategory
+                );
+            }
+        ) ?? [];
+
+    const sortedExpenses =
+        [...filteredExpenses].sort(
+            (a, b) => {
+                switch (sortBy) {
+                    case "oldest":
+                        return (
+                            new Date(
+                                a.date
+                            ).getTime() -
+                            new Date(
+                                b.date
+                            ).getTime()
+                        );
+
+                    case "highest":
+                        return (
+                            b.amount -
+                            a.amount
+                        );
+
+                    case "lowest":
+                        return (
+                            a.amount -
+                            b.amount
+                        );
+
+                    case "newest":
+                    default:
+                        return (
+                            new Date(
+                                b.date
+                            ).getTime() -
+                            new Date(
+                                a.date
+                            ).getTime()
+                        );
+                }
+            }
+        );
+
     // EMPTY STATE
     if (!expenses || expenses.length === 0) {
         return (
@@ -91,9 +172,63 @@ export default function ExpenseList() {
     }
 
     // SUCCESS STATE
+    if (
+        expenses.length > 0 &&
+        filteredExpenses.length === 0
+    ) {
+        return (
+            <div
+                className="
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-10
+                text-center
+                shadow-sm
+                dark:border-slate-800
+                dark:bg-slate-900
+            "
+            >
+                <h3
+                    className="
+                    text-lg
+                    font-semibold
+                    text-slate-900
+                    dark:text-slate-100
+                "
+                >
+                    No matching expenses found
+                </h3>
+
+                <p
+                    className="
+                    mt-2
+                    text-sm
+                    text-slate-500
+                    dark:text-slate-400
+                "
+                >
+                    Try a different search term.
+                </p>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-4">
-            {expenses.map((expense) => {
+
+            <div className="mb-3 flex items-center gap-3">
+                <div className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
+
+                <p className="text-xs tracking-wide text-slate-600 dark:text-slate-200">
+                    {sortedExpenses.length} / {expenses.length} Expenses
+                </p>
+
+                <div className="h-px flex-1 bg-slate-200 dark:bg-slate-800" />
+            </div>
+
+            {sortedExpenses.map((expense) => {
                 const isCurrentDeleting =
                     isPending &&
                     deletingId === expense._id;
@@ -118,9 +253,24 @@ export default function ExpenseList() {
                     >
                         {/* LEFT SIDE */}
                         <div className="min-w-0">
-                            <h3 className="truncate font-semibold text-slate-900 dark:text-slate-100">
-                                {expense.title}
-                            </h3>
+                            <div className="flex items-start justify-between gap-4">
+                                <h3 className="truncate font-semibold text-slate-900 dark:text-slate-100">
+                                    {expense.title}
+                                </h3>
+
+                                <span
+                                    className="
+                                        shrink-0
+                                        text-lg
+                                        font-bold
+                                        text-slate-900
+                                        dark:text-slate-100
+                                        md:hidden
+                                    "
+                                >
+                                    ₹{expense.amount.toLocaleString()}
+                                </span>
+                            </div>
 
                             <div className="mt-2 flex flex-wrap items-center gap-2 text-sm">
                                 <span
@@ -138,7 +288,14 @@ export default function ExpenseList() {
                                 <span className="text-slate-500 dark:text-slate-400">
                                     {new Date(
                                         expense.date
-                                    ).toLocaleDateString()}
+                                    ).toLocaleDateString(
+                                        "en-IN",
+                                        {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        }
+                                    )}
                                 </span>
                             </div>
 
@@ -150,13 +307,13 @@ export default function ExpenseList() {
                         </div>
 
                         {/* ACTIONS */}
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1.5">
                             <Link
                                 href={`/expenses/${expense._id}/edit`}
                                 className="
                                     rounded-xl
                                     bg-blue-50 dark:bg-blue-950/40
-                                    px-3 py-2
+                                    px-2.5 py-1.5
                                     text-sm font-medium
                                     text-blue-600 dark:text-blue-400
                                     transition
@@ -176,7 +333,7 @@ export default function ExpenseList() {
                                 disabled={isPending}
                                 className="
                                     rounded-xl
-                                    p-2.5
+                                    p-1.5
                                     text-slate-400 dark:text-slate-500
                                     transition-all
                                     hover:bg-red-50 dark:hover:bg-red-950/40
@@ -225,7 +382,7 @@ export default function ExpenseList() {
                         </div>
 
                         {/* AMOUNT */}
-                        <div className="text-left md:text-right">
+                        <div className="hidden md:block md:text-right">
                             <span className="text-xl font-bold text-slate-900 dark:text-slate-100">
                                 ₹
                                 {expense.amount.toLocaleString()}

@@ -19,24 +19,6 @@ const AnalyticsCarousel = ({
 
     const totalCharts = React.Children.count(children);
 
-    // const scrollLeft = () => {
-    //     if (!scrollRef.current) return;
-
-    //     scrollRef.current.scrollBy({
-    //         left: -scrollRef.current.clientWidth,
-    //         behavior: "smooth",
-    //     });
-    // };
-
-    // const scrollRight = () => {
-    //     if (!scrollRef.current) return;
-
-    //     scrollRef.current.scrollBy({
-    //         left: scrollRef.current.clientWidth,
-    //         behavior: "smooth",
-    //     });
-    // };
-
     const handleScroll = () => {
         if (!scrollRef.current) return;
 
@@ -56,48 +38,12 @@ const AnalyticsCarousel = ({
 
     return (
         <div className="relative">
-            {/* <div className="mb-4 hidden justify-end gap-2 md:flex">
-                <button
-                    onClick={scrollLeft}
-                    className="
-                        rounded-lg
-                        border
-                        border-slate-200
-                        px-3
-                        py-2
-                        text-sm
-                        hover:bg-slate-50
-                        dark:border-slate-700
-                        dark:hover:bg-slate-800
-                    "
-                >
-                    ← Prev
-                </button>
-
-                <button
-                    onClick={scrollRight}
-                    className="
-                        rounded-lg
-                        border
-                        border-slate-200
-                        px-3
-                        py-2
-                        text-sm
-                        hover:bg-slate-50
-                        dark:border-slate-700
-                        dark:hover:bg-slate-800
-                    "
-                >
-                    Next →
-                </button>
-            </div> */}
-
             <div
                 ref={scrollRef}
                 onScroll={handleScroll}
                 className="
                     flex
-                    gap-4
+                    gap-2 sm:gap-4
                     overflow-x-auto
                     hide-scrollbar
                     snap-x

@@ -1,6 +1,15 @@
+'use client';
+
 import ExpenseList from "@/features/expenses/components/ExpenseList";
+import ExpenseToolbar from "@/features/expenses/components/ExpenseToolbar";
+import { useState } from "react";
 
 export default function ExpensesPage() {
+
+    const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [sortBy, setSortBy] = useState("newest");
+
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-slate-950 px-4 py-8 md:px-6 lg:px-8">
             <div className="mx-auto max-w-6xl">
@@ -14,7 +23,19 @@ export default function ExpensesPage() {
                     </p>
                 </div>
 
-                <ExpenseList />
+                <ExpenseToolbar
+                    searchTerm={searchTerm}
+                    setSearchTerm={setSearchTerm}
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                />
+                <ExpenseList
+                    searchTerm={searchTerm}
+                    selectedCategory={selectedCategory}
+                    sortBy={sortBy}
+                />
             </div>
         </main>
     );
